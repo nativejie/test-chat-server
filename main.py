@@ -46,7 +46,9 @@ def get_conversations():
 
 @app.post("/events")
 def events(message: str = Body(..., embed=True)):
-    return StreamingResponse(ask(message), media_type="text/event-stream")
+      return ask(message)
+#     return StreamingResponse(ask(message), media_type="text/event-stream")
+       
 
 if __name__ == "__main__":
     print("Starting server...")
