@@ -29,8 +29,8 @@ def generate_events():
     yield "data: Bye!\n\n"
     
 def ask(question: str):
-    print("Chatbot: ")
     prev_text = ""
+    result = ""
     for data in chatbot.ask(
         question,
         "2c6abc5b-99e3-4e93-9a69-aefbe33c07d8"
@@ -38,7 +38,9 @@ def ask(question: str):
         message = data["message"][len(prev_text) :]
         print(message, end="", flush=True)
         prev_text = data["message"]
+        result += prev_text
         yield message
+    return result
 
 @app.get('/get-conversations')
 def get_conversations():
@@ -46,7 +48,8 @@ def get_conversations():
 
 @app.post("/events")
 def events(message: str = Body(..., embed=True)):
-    return StreamingResponse(ask(message), media_type="text/event-stream")
+    return ask(message)
+    # return StreamingResponse(ask(message), media_type="text/event-stream")
 
 if __name__ == "__main__":
     print("Starting server...")
