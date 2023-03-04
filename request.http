@@ -1,0 +1,7 @@
+POST http://localhost:8000/chat/ask
+
+Content-Type: application/json
+
+{
+    "question": "What is the weather like today?"
+}
